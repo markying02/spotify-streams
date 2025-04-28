@@ -1,0 +1,33 @@
+* import data
+import delimited output.csv
+
+* generate variables
+gen ln_streams = ln(streams)
+gen ln_artist_count = ln(artist_count)
+gen ln_num_playlists = ln(num_playlists)
+gen ln_days_released = ln(days_released)
+
+* summary stats
+summ ln_streams ln_artist_count ln_days_released inverse_rank ln_num_playlists bpm is_minor danceability valence energy acousticness instrumentalness liveness speechiness
+
+* heteroskedasticity testing
+regress ln_streams ln_artist_count ln_days_released inverse_rank ln_num_playlists bpm is_minor danceability valence energy acousticness instrumentalness liveness speechiness
+estat imtest, white
+estat hettest
+regress ln_streams ln_artist_count ln_days_released inverse_rank ln_num_playlists bpm is_minor danceability valence energy acousticness instrumentalness liveness speechiness, vce(robust)
+
+* multicollinearity testing
+correlate ln_streams ln_artist_count ln_days_released inverse_rank ln_num_playlists bpm is_minor danceability valence energy acousticness instrumentalness liveness speechiness
+estat vif 
+predict yhat
+predict res, residual
+gen  res2 = res*res
+rvfplot
+
+* specification error testing
+regress ln_streams ln_artist_count ln_days_released inverse_rank ln_num_playlists bpm is_minor danceability valence energy acousticness instrumentalness liveness speechiness, vce(robust)
+estat ovtest
+linktest
+
+* beta star coefficient calculations
+listcoef, std
