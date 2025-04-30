@@ -70,7 +70,7 @@ df['is_ranked'] = df['chart_rank'].apply(lambda x: 1 if x > 0 else 0)
 max_chart_position = df['chart_rank'].max()
 
 # create inverse chart_position column. keep 0 as 0
-df['inverse_rank'] = df['chart_rank'].apply(lambda x: 0 if x == 0 else max_chart_position - x+1)
+df['inverse_rank'] = df['chart_rank'].apply(lambda x: 0 if x == 0 else 1/x)
 
 # Identify rows that have at least one missing value
 rows_with_missing = df[df.isnull().any(axis=1)]
