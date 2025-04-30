@@ -66,10 +66,6 @@ df.rename(columns={'artist(s)_name': 'artist_name'}, inplace=True)
 # # dummy variable for if a song is ranked
 df['is_ranked'] = df['chart_rank'].apply(lambda x: 1 if x > 0 else 0)
 
-# print out the number of different ranks in the chart_rank column
-print("Number of different ranks in the chart_rank column:")
-print(df['chart_rank'].nunique())
-
 # get max of chart_position as max_chart_position
 max_chart_position = df['chart_rank'].max()
 
