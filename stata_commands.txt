@@ -9,6 +9,10 @@ gen ln_num_playlists = ln(num_playlists)
 gen ln_days_released = ln(days_released)
 gen ln_rank = ln(chart_rank+1)
 
+* bad regressions
+regress streams artist_count days_released num_playlists chart_rank bpm is_minor danceability valence energy acousticness instrumentalness liveness speechiness, vce(robust)
+ regress ln_streams ln_artist_count ln_days_released ln_num_playlists ln_rank is_minor bpm danceability valence energy acousticness instrumentalness liveness speechiness, vce(robust)
+
 * summary stats
 summ ln_streams ln_artist_count ln_days_released ln_num_playlists ln_rank is_ranked is_minor bpm danceability valence energy acousticness instrumentalness liveness speechiness
 
