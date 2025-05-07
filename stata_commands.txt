@@ -14,6 +14,10 @@ summ ln_streams ln_artist_count ln_days_released ln_num_playlists ln_rank is_ran
 
 * heteroskedasticity testing
 regress ln_streams ln_artist_count ln_days_released ln_num_playlists ln_rank is_ranked is_minor bpm danceability valence energy acousticness instrumentalness liveness speechiness
+predict yhat
+predict res, residual
+gen  res2 = res*res
+rvfplot
 estat imtest, white
 estat hettest
 regress ln_streams ln_artist_count ln_days_released ln_num_playlists ln_rank is_ranked is_minor bpm danceability valence energy acousticness instrumentalness liveness speechiness, vce(robust)
@@ -21,13 +25,9 @@ regress ln_streams ln_artist_count ln_days_released ln_num_playlists ln_rank is_
 * multicollinearity testing
 correlate ln_streams ln_artist_count ln_days_released ln_num_playlists ln_rank is_ranked is_minor bpm danceability valence energy acousticness instrumentalness liveness speechiness
 estat vif 
-predict yhat
-predict res, residual
-gen  res2 = res*res
-rvfplot
 
 * specification error testing
-regress ln_streams ln_artist_count ln_days_released ln_num_playlists ln_rank is_ranked  bpm is_minor danceability valence energy acousticness instrumentalness liveness speechiness, vce(robust)
+regress ln_streams ln_artist_count ln_days_released ln_num_playlists ln_rank is_ranked is_minor bpm danceability valence energy acousticness instrumentalness liveness speechiness, vce(robust)
 estat ovtest
 linktest
 
